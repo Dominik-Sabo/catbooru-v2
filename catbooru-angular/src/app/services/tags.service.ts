@@ -36,8 +36,8 @@ export class TagsService {
     }
     const requestOptions = {                                                                                                                                                                             
       headers: new HttpHeaders(headerDict),
-      params: new HttpParams().append('tags', tag),
+      params: new HttpParams().append('tag', tag),
     };
-    return this.http.post<string>(this.url + postId + '/addtags', requestOptions, requestOptions)
+    return this.http.post<string>(this.url + postId + '/addtag', requestOptions, requestOptions)
   }
 }
