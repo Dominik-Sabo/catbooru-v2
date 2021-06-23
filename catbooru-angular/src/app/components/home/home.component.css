@@ -1,0 +1,60 @@
+ul li{
+    width: 100%;
+    float: left;
+    margin-inline: 30px;
+    list-style: none;
+}
+
+ul li:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+nav{
+    text-align: center;
+}
+
+ul{
+    margin-inline: 35%;
+    text-align: center;
+    display: flex;
+}
+
+.search{
+    text-align: center;
+    border-bottom-style: solid;
+    padding-bottom: 50px;
+}
+.title{
+    background-color: darkslategray;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+    color: wheat;
+}
+
+.logo{
+    width: 25%;
+}
+
+.logo:hover{
+    cursor: pointer;
+}
+
+h1:hover{
+    cursor: pointer;
+}
+
+h2{
+    padding-top: 50px;
+    text-align: center;
+}
+
+select{
+    margin-inline: 25px;
+}
+
+.home{
+    padding-top: 40px;
+    background-color: lightgray;
+}

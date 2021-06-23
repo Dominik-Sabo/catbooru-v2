@@ -1,0 +1,14 @@
+span:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+span{
+    color: red;
+}
+
+button{
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
