@@ -20,14 +20,14 @@ export class PostsListComponent implements OnInit {
       if(this.userService.user == null) this.router.navigate(['login']);
       else this.postService.getLikedPosts(this.userService.user.id).subscribe(posts => {
         this.posts = posts;
-        if(this.posts == null) this.notfound = "No posts found";
+        if(this.posts.length == 0) this.notfound = "No posts found";
       });
     }
     else if(this.router.url.includes('/commented')){
       if(this.userService.user == null) this.router.navigate(['login']);
       else this.postService.getCommentedPosts(this.userService.user.id).subscribe(posts => {
         this.posts = posts;
-        if(this.posts == null) this.notfound = "No posts found";
+        if(this.posts.length == 0) this.notfound = "No posts found";
       });
     }
     else if(this.router.url.includes('/all')){
@@ -38,7 +38,7 @@ export class PostsListComponent implements OnInit {
         this.postService.query = params['query'];  
         this.postService.getPosts().subscribe(posts => {
           this.posts = posts;
-          if(this.posts == null) this.notfound = "No posts found";
+          if(this.posts.length == 0) this.notfound = "No posts found";
         });
       })
     this.postService.query = '';

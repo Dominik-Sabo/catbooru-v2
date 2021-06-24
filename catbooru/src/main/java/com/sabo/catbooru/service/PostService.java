@@ -3,6 +3,7 @@ package com.sabo.catbooru.service;
 import com.sabo.catbooru.model.*;
 import com.sabo.catbooru.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -82,14 +83,19 @@ public class PostService {
         tagRepository.deleteByPostIdAndTagValue(postId, tag);
     }
 
-    public List<Post> getAllPosts(){
-        return postRepository.findAll();
+    public List<Post> getAllPosts(String order, String sort){
+        switch (order){
+            case "ascending": return postRepository.findAll(Sort.by(Sort.Direction.ASC, sort));
+            case "descending": return postRepository.findAll(Sort.by(Sort.Direction.DESC, sort));
+            default: return postRepository.findAll(Sort.by(Sort.Direction.DESC, "timestamp"));
+        }
+
     }
 
-    public List<Post> filterPosts(String query){
-        List<Post> allPosts = postRepository.findAll();
+    public List<Post> filterPosts(String query, String order, String sort){
+        List<Post> allPosts = getAllPosts(order, sort);
         String potentialUsername = null;
-        if(query.isEmpty()) return postRepository.findAll();
+        if(query.isEmpty()) return allPosts;
 
         List<String> listQuery = removeDuplicateTags(query);
         for (String tag: listQuery){
@@ -134,13 +140,13 @@ public class PostService {
         return postRepository.findById(id).orElse(null);
     }
 
-    public List<Post> getLikedPosts(Long userId){
+    public List<Post> getLikedPosts(Long userId, String order, String sort){
         List<Upvote> upvotes = upvoteRepository.findAllByUserId(userId);
-        List<Post> posts = new ArrayList<Post>();
+        List<Long> ids = new ArrayList<Long>();
         for(Upvote upvoted: upvotes){
-            posts.add(postRepository.findById(upvoted.getPostId()).orElse(null));
+            ids.add(upvoted.getPostId());
         }
-        return posts;
+        return sortPosts(ids, order, sort);
     }
 
     @Transactional
@@ -169,13 +175,13 @@ public class PostService {
         return commentRepository.findAllByPostId(postId);
     }
 
-    public List<Post> getCommentedOnPosts(Long userId){
+    public List<Post> getCommentedOnPosts(Long userId, String order, String sort){
         List<Comment> comments = commentRepository.findAllByUserId(userId);
-        List<Post> posts = new ArrayList<Post>();
+        List<Long> ids = new ArrayList<Long>();
         for(Comment commented: comments){
-            posts.add(postRepository.findById(commented.getPostId()).orElse(null));
+            ids.add(commented.getPostId());
         }
-        return posts;
+        return sortPosts(ids, order, sort);
     }
 
     public List<String> getPostTags(Long postId){
@@ -208,5 +214,16 @@ public class PostService {
             formattedTags.add(new Tag(postId, tag));
         }
         return formattedTags;
+    }
+
+    private List<Post> sortPosts(List<Long> ids, String order, String sort){
+        switch (order) {
+            case "ascending":
+                return postRepository.findByIdIn(ids, Sort.by(Sort.Direction.ASC, sort));
+            case "descending":
+                return postRepository.findByIdIn(ids, Sort.by(Sort.Direction.DESC, sort));
+            default:
+                return postRepository.findByIdIn(ids, Sort.by(Sort.Direction.DESC, "timestamp"));
+        }
     }
 }

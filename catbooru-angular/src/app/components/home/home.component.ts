@@ -43,6 +43,11 @@ export class HomeComponent implements OnInit {
     this.message = '';
   }
 
+  onContestsClick(){
+    this.router.navigate(['contests']);
+    this.message = '';
+  }
+
   onNewClick(){
     this.router.navigate(['new']);
     this.message = '';

@@ -12,13 +12,13 @@ import { UserService } from './user.service';
 export class PostService {
   query:string = '';
   order:string = 'descending';
-  sort:string = 'time';
+  sort:string = 'timestamp';
   url:string = 'http://localhost:8080/api/posts/'
 
   constructor(private userService:UserService, private http:HttpClient) { }
 
   getAllPosts():Observable<Post[]>{
-    return this.http.get<Post[]>(this.url + 'all', {params: new HttpParams().set('order', 'descending').set('sort', 'time') })
+    return this.http.get<Post[]>(this.url + 'all', {params: new HttpParams().set('order', this.order).set('sort', this.sort) })
   }
 
   getPosts():Observable<Post[]>{

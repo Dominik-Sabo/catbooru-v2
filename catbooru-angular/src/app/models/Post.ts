@@ -3,5 +3,5 @@ export class Post{
     username:string;
     filePath:string;
     upvotes:number;
-    time?:Date;
+    timestamp?:Date;
 }

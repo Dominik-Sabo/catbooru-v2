@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'account', component: AccountComponent },
   { path: 'tags', component: AllTagsComponent },
+  { path: 'contests', component: AllTagsComponent }, ///
   { path: 'new', component: NewPostComponent}
 ];
 

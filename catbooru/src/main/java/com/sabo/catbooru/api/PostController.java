@@ -43,14 +43,14 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Post>> getAllPosts(){
-        List<Post> posts = postService.getAllPosts();
+    public ResponseEntity<List<Post>> getAllPosts(@RequestParam("order") String order, @RequestParam("sort") String sort){
+        List<Post> posts = postService.getAllPosts(order, sort);
         return ResponseEntity.ok().body(posts);
     }
 
     @GetMapping("/query")
-    public ResponseEntity<List<Post>> filterPosts(@RequestParam("query") String query){
-        List<Post> posts = postService.filterPosts(query);
+    public ResponseEntity<List<Post>> filterPosts(@RequestParam("query") String query, @RequestParam("order") String order, @RequestParam("sort") String sort){
+        List<Post> posts = postService.filterPosts(query, order, sort);
         return ResponseEntity.ok().body(posts);
     }
 
@@ -73,8 +73,8 @@ public class PostController {
     }
 
     @GetMapping("/liked")
-    public ResponseEntity<List<Post>> getLikedPosts(@RequestParam Long userId){
-        List<Post> posts = postService.getLikedPosts(userId);
+    public ResponseEntity<List<Post>> getLikedPosts(@RequestParam Long userId, @RequestParam("order") String order, @RequestParam("sort") String sort){
+        List<Post> posts = postService.getLikedPosts(userId, order, sort);
         return ResponseEntity.ok().body(posts);
     }
 
@@ -98,8 +98,8 @@ public class PostController {
     }
 
     @GetMapping("/commented")
-    public ResponseEntity<List<Post>> getCommentedOnPosts(@RequestParam("userId") Long userId){
-        List<Post> posts = postService.getCommentedOnPosts(userId);
+    public ResponseEntity<List<Post>> getCommentedOnPosts(@RequestParam("userId") Long userId, @RequestParam("order") String order, @RequestParam("sort") String sort){
+        List<Post> posts = postService.getCommentedOnPosts(userId, order, sort);
         return ResponseEntity.ok().body(posts);
     }
 

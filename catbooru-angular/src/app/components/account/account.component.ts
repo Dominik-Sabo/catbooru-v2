@@ -42,8 +42,8 @@ export class AccountComponent implements OnInit {
   }
 
   onPostsClick(){
-    this.postService.query=this.userService.user.username;
-    this.router.navigate(['posts', this.userService.user.username]);
+    this.postService.query="user:"+this.userService.user.username;
+    this.router.navigate(['posts', "user:"+this.userService.user.username]);
   }
 
   onChangeClick(){
