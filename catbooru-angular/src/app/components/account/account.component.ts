@@ -10,20 +10,21 @@ import { Router } from '@angular/router';
 })
 export class AccountComponent implements OnInit {
   @Output() emitter = new EventEmitter<string>();
-  changeusername:string;
+  user:string;
   password:string = '';
   username:string= '';
-  confirm:string= '';
+  admin:boolean = false;
+  //confirm:string= '';
   show:boolean = false;
   error:string;
 
   constructor(private userService:UserService, private postService:PostService, private router:Router) { }
 
-  onUsernameKey(event) {this.changeusername = event.target.value; if(event.key === 'Enter') this.onChangeClick();}
+  onUsernameKey(event) {this.user = event.target.value; if(event.key === 'Enter') this.onMakeAdminClick();}
 
-  onPasswordKey(event) {this.password = event.target.value; if(event.key === 'Enter') this.onChangeClick();}
+  onPasswordKey(event) {this.password = event.target.value; if(event.key === 'Enter') this.onMakeAdminClick();}
 
-  onConfirmKey(event) {this.confirm = event.target.value; if(event.key === 'Enter') this.onChangeClick();}
+  //onConfirmKey(event) {this.confirm = event.target.value; if(event.key === 'Enter') this.onChangeClick();}
 
   ngOnInit(): void {
     if(this.userService.user == null){
@@ -31,6 +32,7 @@ export class AccountComponent implements OnInit {
       this.emitter.emit('expired');
     } 
     this.username = this.userService.user.username
+    this.admin = this.userService.user.admin
   }
 
   onLikedClick(){
@@ -46,7 +48,7 @@ export class AccountComponent implements OnInit {
     this.router.navigate(['posts', "user:"+this.userService.user.username]);
   }
 
-  onChangeClick(){
+  /*onChangeClick(){
     if(this.username == '' || this.password == ''){
       this.error = 'Both fields must be filled'
       this.show = true;
@@ -74,6 +76,32 @@ export class AccountComponent implements OnInit {
           }
         })
     }
+  }*/
+
+  onMakeAdminClick(){
+    if(this.user == '' || this.password == ''){
+      this.error = 'Both fields must be filled'
+      this.show = true;
+    } 
+    else if(this.password!='ZargothraX'){
+      this.error = 'Incorrect super password'
+      this.show = true;
+    }
+    else{
+      this.userService.makeAdmin(this.user, this.password).subscribe(
+        user => {
+          if(user==null){
+            this.error = 'User does not exist';
+            this.show = true;
+          }
+          else{
+            this.error = 'Success';
+            this.show = true;
+          }
+        }
+      )
+    }
+
   }
 
   onLogoutClick(){

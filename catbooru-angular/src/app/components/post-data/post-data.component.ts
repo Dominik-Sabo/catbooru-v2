@@ -41,8 +41,8 @@ export class PostDataComponent implements OnInit {
     if(this.userService.user == undefined) this.router.navigate(['login'])
     else{
         if(this.liked) this.upvoteService.unlikePost(this.post.id).subscribe(unlike => {
-          this.post.upvotes--
           this.liked = !this.liked;
+          this.post.upvotes--
         },
         error => {
           if(error.error == null){
@@ -51,8 +51,8 @@ export class PostDataComponent implements OnInit {
           }
         });
       else this.upvoteService.likePost(this.post.id).subscribe(like => {
-        this.post.upvotes++
         this.liked = !this.liked;
+        this.post.upvotes++
       },
       error => {
         if(error.error == null){

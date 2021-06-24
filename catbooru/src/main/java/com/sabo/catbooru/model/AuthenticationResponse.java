@@ -6,6 +6,7 @@ public class AuthenticationResponse {
         this.username = user.getUsername();
         this.id = user.getId();
         this.token = token;
+        this.isAdmin = user.getAdmin();
     }
 
     private Long id;
@@ -13,6 +14,8 @@ public class AuthenticationResponse {
     private String username;
 
     private String token;
+
+    private Boolean isAdmin;
 
     public Long getId(){
         return id;
@@ -24,5 +27,9 @@ public class AuthenticationResponse {
 
     public String getToken() {
         return token;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
     }
 }

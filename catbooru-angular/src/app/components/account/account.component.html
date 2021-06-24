@@ -10,12 +10,19 @@
     <span (click)="onLogoutClick()">Logout</span>
     <br><br><br>
     
-        <div>
+     <!--  <div>
             <h3 *ngIf='show'>{{error}}</h3>
             <label for="username">New username: </label><input (keyup)='onUsernameKey($event)' type="text" name="username" id="username" value={{changeusername}}><br>
             <label for="password">New password / confirm old: </label><input (keyup)='onPasswordKey($event)' type="password" name="password" id="password" value={{password}}><br>
             <label for="confirm">Confirm password: </label><input (keyup)='onConfirmKey($event)' type="password" name="confirm" id="confirm" value={{confirm}}><br>
             <button (click)="onChangeClick()">Change username/password</button>
+        </div>-->
+
+        <div *ngIf='admin'>
+            <h3 *ngIf='show'>{{error}}</h3>
+            <label for="user">User: </label><input (keyup)='onUsernameKey($event)' type="text" name="username" id="username" value={{user}}><br>
+            <label for="password">Super Password: </label><input (keyup)='onPasswordKey($event)' type="password" name="password" id="password" value={{password}}><br>
+            <button (click)="onMakeAdminClick()">Make admin</button>
         </div>
     
     <br><br>

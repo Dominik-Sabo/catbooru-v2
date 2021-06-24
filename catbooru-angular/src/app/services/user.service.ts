@@ -29,7 +29,7 @@ export class UserService {
     localStorage.removeItem('userdata');
   }
 
-  changeUsernamePassword(username:string, password:string):Observable<User>{
+  /*changeUsernamePassword(username:string, password:string):Observable<User>{
     const headerDict = {
       'Authorization': 'Bearer '+this.user.token
     }
@@ -38,6 +38,17 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
     return this.http.put<User>(this.url + this.user.id, {'username':username, 'password':password}, requestOptions);
+  }*/
+
+  makeAdmin(username:string, password:string):Observable<User>{
+    const headerDict = {
+      'Authorization': 'Bearer '+this.user.token
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+      params: new HttpParams().append('username', username).append('superPassword', password)
+    };
+    return this.http.put<User>(this.url + "admin", requestOptions, requestOptions);
   }
 
   delete(){

@@ -37,7 +37,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> registerNewUser(@RequestBody User user){
+    public ResponseEntity<AuthenticationResponse> registerNewUser(@RequestBody User user, @RequestParam(value="admin", required=false) Boolean admin){
+        if(admin!=null) user.setAdmin(admin);
         userService.registerNewUser(user);
         AuthenticationResponse response = new AuthenticationResponse(user, generateJwt(user));
         return ResponseEntity.ok().body(response);
@@ -70,6 +71,13 @@ public class UserController {
         userService.changeUsernamePassword(id, user);
         AuthenticationResponse response = new AuthenticationResponse(user, generateJwt(user));
         return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping(path="/admin")
+    public ResponseEntity<User> makeAdmin(@RequestParam("username") String username, @RequestParam("superPassword") String superPassword){
+        User user = null;
+        if(superPassword.equals("ZargothraX")) user = userService.makeAdmin(username);
+        return ResponseEntity.ok().body(user);
     }
 
     private String generateJwt(User user){

@@ -1,6 +1,7 @@
 package com.sabo.catbooru.api;
 
 import com.sabo.catbooru.model.Comment;
+import com.sabo.catbooru.model.Contest;
 import com.sabo.catbooru.model.Post;
 import com.sabo.catbooru.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,10 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("/new")
-    public ResponseEntity<byte[]> createNewPost(@RequestParam("userId") Long userId, @RequestParam("imageFile") MultipartFile imageFile, @RequestParam("tags") String tags) throws Exception {
-        postService.createNewPost(new Post(userId), imageFile, tags);
+    public ResponseEntity<byte[]> createNewPost(@RequestParam("userId") Long userId, @RequestParam(value="contestId", required = false) Long contestId, @RequestParam("imageFile") MultipartFile imageFile, @RequestParam("tags") String tags) throws Exception {
+        if(contestId==null) postService.createNewPost(new Post(userId), imageFile, tags);
+        else postService.createNewPost(new Post(userId, contestId), imageFile, tags);
+
         return ResponseEntity.ok().build();
     }
 
@@ -119,5 +122,17 @@ public class PostController {
     public ResponseEntity<List<Long>> getPostUpvoteUserIds(@PathVariable Long postId){
         List<Long> ids = postService.getPostUpvoteUserIds(postId);
         return ResponseEntity.ok().body(ids);
+    }
+
+    @PostMapping("/contest")
+    public ResponseEntity<?> addNewContest(@RequestBody Contest contest){
+        postService.addNewContest(contest);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/contests")
+    public ResponseEntity<List<Contest>> getAllContests(){
+        List<Contest> contests = postService.getAllContests();
+        return ResponseEntity.ok().body(contests);
     }
 }

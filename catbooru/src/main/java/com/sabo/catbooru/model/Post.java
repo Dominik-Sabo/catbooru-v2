@@ -15,6 +15,11 @@ public class Post {
         this.user = new User(userId);
     }
 
+    public Post(Long userId, Long contestId){
+        this.user = new User(userId);
+        this.contest = new Contest(contestId);
+    }
+
     @Id
     @GeneratedValue
     private Long id;
@@ -22,6 +27,10 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "contest_id")
+    private Contest contest;
 
     @Column(name="filepath")
     private String filePath;
@@ -50,6 +59,16 @@ public class Post {
 
     public String getFilePath() {
         return filePath;
+    }
+
+    public Long getContestId(){
+        if(this.contest==null) return null;
+        return contest.getId();
+    };
+
+    public String getContest(){
+        if(this.contest==null) return null;
+        return contest.getName();
     }
 
     public void setFilePath(String filePath) {

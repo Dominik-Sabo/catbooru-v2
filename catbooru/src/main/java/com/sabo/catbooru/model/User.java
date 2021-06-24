@@ -24,6 +24,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "isadmin")
+    private Boolean isAdmin = false;
+
     @OneToMany(mappedBy = "user")
     private Set<Post> posts;
 
@@ -49,5 +52,13 @@ public class User {
 
     public long getId() {
         return id;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 }

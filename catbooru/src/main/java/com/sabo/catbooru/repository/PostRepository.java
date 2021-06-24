@@ -13,6 +13,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByUser_Id(Long userId);
+    List<Post> findAllByContest_Id(Long contestId, Sort by);
 
     @Modifying
     @Query("update Post post set post.upvotes = post.upvotes + 1 where post.id = ?1")

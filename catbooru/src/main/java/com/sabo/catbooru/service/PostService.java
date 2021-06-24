@@ -34,6 +34,9 @@ public class PostService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private ContestRepository contestRepository;
+
     public void createNewPost(Post post, MultipartFile imageFile, String tags) throws Exception {
         postRepository.save(post);
         String filename = post.getId().toString();
@@ -95,20 +98,36 @@ public class PostService {
     public List<Post> filterPosts(String query, String order, String sort){
         List<Post> allPosts = getAllPosts(order, sort);
         String potentialUsername = null;
+        String potentialContest = null;
         if(query.isEmpty()) return allPosts;
 
         List<String> listQuery = removeDuplicateTags(query);
+
         for (String tag: listQuery){
             if(tag.contains("user:")){
-                potentialUsername = tag.split(":", 2)[1];
-                listQuery.remove(tag);
-                break;
+                if (potentialUsername==null){
+                    potentialUsername = tag.split(":", 2)[1];
+                    listQuery.remove(tag);
+                    if(listQuery.isEmpty()) break;
+                }
+            }
+            else if(tag.contains("contest:")){
+                if (potentialContest==null){
+                    potentialContest = tag.split(":", 2)[1];
+                    listQuery.remove(tag);
+                    if(listQuery.isEmpty()) break;
+                }
             }
         }
-        final String username = potentialUsername;
 
         if(potentialUsername!=null){
+            final String username = potentialUsername;
             allPosts.removeIf(post -> !post.getUsername().equals(username));
+        }
+
+        if(potentialContest!=null){
+            final String contest = potentialContest;
+            allPosts.removeIf(post -> post.getContest()==null || !post.getContest().equals(contest));
         }
 
         if(listQuery.isEmpty()) return allPosts;
@@ -196,6 +215,22 @@ public class PostService {
         return upvoteRepository.findAllByPostId(postId).stream().map(Upvote::getUserId).collect(Collectors.toList());
     }
 
+    public void addNewContest(Contest contest){
+        contestRepository.save(contest);
+    }
+
+    public List<Contest> getAllContests(){
+        List<Contest> contests = contestRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        for(Contest contest: contests){
+            if(!contest.getFinished() && !contest.checkIfActive()){
+                contest.setFinished(true);
+                contest.setWinnerId(findContestWinner(contest.getWinnerId()));
+                contestRepository.save(contest);
+            }
+        }
+        return contests;
+    }
+
     private List<String> removeDuplicateTags(String tags){
         String[] allTags = tags.split(" ");
         ArrayList<String> tagList = new ArrayList<>(Arrays.asList(allTags));
@@ -225,5 +260,11 @@ public class PostService {
             default:
                 return postRepository.findByIdIn(ids, Sort.by(Sort.Direction.DESC, "timestamp"));
         }
+    }
+
+    private Long findContestWinner(Long contestId){
+        List<Post> posts = postRepository.findAllByContest_Id(contestId, Sort.by(Sort.Direction.DESC, "upvotes"));
+        if(posts.isEmpty()) return null;
+        return posts.get(0).getId();
     }
 }
