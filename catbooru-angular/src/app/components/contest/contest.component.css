@@ -1,0 +1,16 @@
+img{
+    width: auto;
+    height: 200px;
+    border-style: solid;
+}
+
+img:hover{
+    border-style: solid;
+    border-color: darkslategray;
+    cursor: pointer;
+}
+
+div{
+    width: 35%;
+    text-align: center;
+}

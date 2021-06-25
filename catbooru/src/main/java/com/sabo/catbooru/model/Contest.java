@@ -22,7 +22,7 @@ public class Contest {
     @OneToMany(mappedBy = "contest")
     private Set<Post> posts;
 
-    @Column(name="name")
+    @Column(name="name", unique = true)
     private String name;
 
     @Column(name="description")
@@ -37,7 +37,10 @@ public class Contest {
     @Column(name="finished")
     private Boolean finished = false;
 
-    @Column(name="winner")
+    @Column(name="winnerPath")
+    private String winnerPath = null;
+
+    @Column(name="winnerId")
     private Long winnerId = null;
 
     public Boolean checkIfActive(){
@@ -81,16 +84,16 @@ public class Contest {
         return timeStop;
     }
 
-    public void setTimeStop(Timestamp timeStop) {
-        this.timeStop = timeStop;
+    public void setTimeStop(Long days) {
+        this.timeStop = Timestamp.from(Instant.now().plusSeconds(3600*24*days));
     }
 
-    public Long getWinnerId() {
-        return winnerId;
+    public String getWinnerPath() {
+        return winnerPath;
     }
 
-    public void setWinnerId(Long winnerId) {
-        this.winnerId = winnerId;
+    public void setWinnerPath(String winnerPath) {
+        this.winnerPath = winnerPath;
     }
 
     public Boolean getFinished() {
@@ -99,5 +102,13 @@ public class Contest {
 
     public void setFinished(Boolean finished) {
         this.finished = finished;
+    }
+
+    public Long getWinnerId() {
+        return winnerId;
+    }
+
+    public void setWinnerId(Long winnerId) {
+        this.winnerId = winnerId;
     }
 }

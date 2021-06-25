@@ -63,8 +63,12 @@ export class PostDataComponent implements OnInit {
     }
   }
 
-  onClick(username:string){
+  onClickUsername(username:string){
     this.emitter.emit("user:"+username);
+  }
+
+  onClickContest(contest:string){
+    this.emitter.emit("contest:"+contest);
   }
 
   onDeleteClick(username:string){

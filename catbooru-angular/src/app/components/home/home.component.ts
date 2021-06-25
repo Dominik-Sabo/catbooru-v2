@@ -74,6 +74,7 @@ export class HomeComponent implements OnInit {
         case 'accountDeleted': this.login = 'Login'; this.message = 'Fare thee well'; this.router.navigate(['']); break;
         case 'expired': this.login = 'Login'; break;
         case 'uploaded': this.message = 'Post uploaded'; this.router.navigate(['']); break;
+        case 'contest': this.message = 'Contest added'; this.router.navigate(['']); break;
         default: this.router.navigate([event]);
       }
     });

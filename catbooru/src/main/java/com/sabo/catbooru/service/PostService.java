@@ -102,23 +102,24 @@ public class PostService {
         if(query.isEmpty()) return allPosts;
 
         List<String> listQuery = removeDuplicateTags(query);
+        List<String> specialTags = new ArrayList<String>();
 
         for (String tag: listQuery){
-            if(tag.contains("user:")){
-                if (potentialUsername==null){
+            if(tag.contains("user:")) {
+                if (potentialUsername == null) {
                     potentialUsername = tag.split(":", 2)[1];
-                    listQuery.remove(tag);
-                    if(listQuery.isEmpty()) break;
+                    specialTags.add(tag);
                 }
             }
-            else if(tag.contains("contest:")){
-                if (potentialContest==null){
+            else if(tag.contains("contest:")) {
+                if (potentialContest == null) {
                     potentialContest = tag.split(":", 2)[1];
-                    listQuery.remove(tag);
-                    if(listQuery.isEmpty()) break;
+                    specialTags.add(tag);
                 }
             }
         }
+
+        listQuery.removeAll(specialTags);
 
         if(potentialUsername!=null){
             final String username = potentialUsername;
@@ -224,7 +225,11 @@ public class PostService {
         for(Contest contest: contests){
             if(!contest.getFinished() && !contest.checkIfActive()){
                 contest.setFinished(true);
-                contest.setWinnerId(findContestWinner(contest.getWinnerId()));
+                Post winner = findContestWinner(contest.getId());
+                if (winner!=null){
+                    contest.setWinnerPath(winner.getFilePath());
+                    contest.setWinnerId(winner.getId());
+                }
                 contestRepository.save(contest);
             }
         }
@@ -262,9 +267,9 @@ public class PostService {
         }
     }
 
-    private Long findContestWinner(Long contestId){
+    private Post findContestWinner(Long contestId){
         List<Post> posts = postRepository.findAllByContest_Id(contestId, Sort.by(Sort.Direction.DESC, "upvotes"));
         if(posts.isEmpty()) return null;
-        return posts.get(0).getId();
+        return posts.get(0);
     }
 }

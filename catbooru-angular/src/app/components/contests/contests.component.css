@@ -1,0 +1,20 @@
+.contest{
+    margin-left: 20%;
+    margin-right: 20%;
+    border-left-style: solid;
+    border-right-style: solid;
+}
+
+app-contest{
+    margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 75px;
+}
+
+div{
+    border-top-style: solid;
+    margin-left: 20%;
+    margin-right: 20%;
+}

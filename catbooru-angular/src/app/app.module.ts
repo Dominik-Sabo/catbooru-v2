@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { AccountComponent } from './components/account/account.component';
 import { AllTagsComponent } from './components/all-tags/all-tags.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
+import { ContestsComponent } from './components/contests/contests.component';
+import { ContestComponent } from './components/contest/contest.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { NewPostComponent } from './components/new-post/new-post.component';
     RegisterComponent,
     AccountComponent,
     AllTagsComponent,
-    NewPostComponent
+    NewPostComponent,
+    ContestsComponent,
+    ContestComponent
   ],
   imports: [
     BrowserModule,

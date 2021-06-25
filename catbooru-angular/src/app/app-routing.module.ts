@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AccountComponent } from './components/account/account.component';
 import { AllTagsComponent } from './components/all-tags/all-tags.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
+import { ContestsComponent } from './components/contests/contests.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -19,8 +20,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'account', component: AccountComponent },
   { path: 'tags', component: AllTagsComponent },
-  { path: 'contests', component: AllTagsComponent }, ///
-  { path: 'new', component: NewPostComponent}
+  { path: 'contests', component: ContestsComponent },
+  { path: 'new', component: NewPostComponent},
+  { path: 'new/:contest', component: NewPostComponent}
 ];
 
 @NgModule({

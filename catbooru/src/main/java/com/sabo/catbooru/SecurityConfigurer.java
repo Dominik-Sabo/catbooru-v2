@@ -41,6 +41,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/posts/{postId}/tags").permitAll()
                 .antMatchers("/api/posts/{postId}/upvotes").permitAll()
                 .antMatchers("/api/posts/tags").permitAll()
+                .antMatchers("/api/posts/contests").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

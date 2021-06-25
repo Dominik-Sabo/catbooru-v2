@@ -14,8 +14,11 @@ span:hover{
 }
 
 span{
-    margin-right: 25%;
     color: darkslateblue;
+}
+
+.username{
+    margin-right: 25%;
 }
 
 .like{
