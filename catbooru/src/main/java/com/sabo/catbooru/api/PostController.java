@@ -125,10 +125,10 @@ public class PostController {
     }
 
     @PostMapping("/contest")
-    public ResponseEntity<?> addNewContest(@RequestBody Contest contest, @RequestParam Long days){
+    public ResponseEntity<Contest> addNewContest(@RequestBody Contest contest, @RequestParam Long days){
         contest.setTimeStop(days);
         postService.addNewContest(contest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(contest);
     }
 
     @GetMapping("/contests")

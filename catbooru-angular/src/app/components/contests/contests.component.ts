@@ -15,6 +15,10 @@ export class ContestsComponent implements OnInit {
   admin:boolean;
   contests:Contest[];
   notfound:string = ''
+  name:string = '';
+  description:string = '';
+  duration:string = '';
+  show:boolean = false;
 
   constructor(private contestService:ContestService, private userService:UserService) { }
 
@@ -26,9 +30,25 @@ export class ContestsComponent implements OnInit {
     });
   }
 
-  onClick(){
+  onNewClick(){
     this.newFlag = !this.newFlag;
-    //this.emitter.emit("contest")
   }
+
+  onSubmitClick(){
+    this.contestService.newContest(this.name, this.description, this.duration).subscribe(
+      uploaded => {
+        this.emitter.emit('contest');
+      },
+      error => {
+        this.show = true;
+      });
+  }
+
+  onNameKey(event) {this.name = event.target.value; if(event.key === 'Enter') this.onSubmitClick();}
+
+  onDescriptionKey(event) {this.description = event.target.value;}
+
+  onDurationKey(event) {this.duration = event.target.value; if(event.key === 'Enter') this.onSubmitClick();}
+
 
 }

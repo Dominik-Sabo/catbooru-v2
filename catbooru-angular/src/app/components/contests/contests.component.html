@@ -1,11 +1,18 @@
 
-<p *ngIf='admin' (click)="onClick()">add contest</p>
+<h2 class="add" *ngIf='admin' (click)="onNewClick()">Add contest</h2>
 
-<span *ngIf='newFlag'>form</span>
+<div class="form" *ngIf='newFlag'>
+    <h3 *ngIf='show'>Duration must be a number</h3>
+    <label for="name">Name: </label><input (keyup)='onNameKey($event)' type="text" name="name" id="name"><br>
+    <label for="duration">Duration: </label><input class="duration" (keyup)='onDurationKey($event)' type="text" name="duration" id="duration"><br>
+    <label class="desclabel" for="description"> Description: </label> <br>
+    <textarea class="description" (keyup)='onDescriptionKey($event)' type="text" name="description" id="description"></textarea><br>
+    <button (click)='onSubmitClick()'>Submit</button>
+</div>
 
 <span *ngIf='!newFlag'>
 <p class="contest"><app-contest *ngFor="let contest of contests" [contest]="contest"></app-contest></p>
 
-<div></div>
+<div *ngIf='notfound==""'></div>
 </span>
-<h2>{{notfound}}</h2>
+<h2 *ngIf='!newFlag'>{{notfound}}</h2>

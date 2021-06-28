@@ -14,3 +14,21 @@ div{
     width: 35%;
     text-align: center;
 }
+
+span:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+h2:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+span{
+    color: red;
+}
+
+h2{
+    color: gray;
+}
