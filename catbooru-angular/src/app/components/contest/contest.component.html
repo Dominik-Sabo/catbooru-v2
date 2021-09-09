@@ -1,6 +1,7 @@
 <h2 (click)="onContestClick()">{{contest.name}}</h2>
 <p>{{contest.description}}</p>
-<p *ngIf='!contest.finished; else elseBlock'>Contest is underway and ends on {{date}} at {{hour}}.<br> <span (click)="onNewClick()">Enter new post into contest</span></p>
+<p *ngIf='!contest.finished; else elseBlock'>Contest is underway and ends on {{date}} at {{hour}}.<br>
+     <span (click)="onNewClick()">Enter new post into contest</span></p>
 <ng-template #elseBlock>
     <div>
         <p>Contest finished on {{date}}. Winning post:</p>
